@@ -12,8 +12,13 @@
     {% if sent %}
       <div class="sent" role="status">
         <p class="eyebrow">Received</p>
-        <h2>The note is in the lab inbox on this machine.</h2>
-        <p>For a reply from the group itself, use <a href="mailto:{{ lab.email }}">{{ lab.email }}</a>.</p>
+        {% if stored %}
+          <h2>The note is in the lab inbox on this machine.</h2>
+          <p>For a reply from the group itself, use <a href="mailto:{{ lab.email }}">{{ lab.email }}</a>.</p>
+        {% else %}
+          <h2>Email reaches the lab directly.</h2>
+          <p>Send the note to <a href="mailto:{{ lab.email }}">{{ lab.email }}</a>.</p>
+        {% endif %}
       </div>
     {% else %}
       {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}

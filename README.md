@@ -17,19 +17,17 @@ Or double-click `run.bat`, or from this folder run `.\run.bat`.
 
 Open [http://127.0.0.1:5050](http://127.0.0.1:5050).
 
-## Deploy for free
+## Deploy
 
-[Render](https://render.com) can run this Flask app from the GitHub repo at no cost. The free instance sleeps after about 15 minutes without visitors and takes about a minute to wake. Messages saved by the contact form live on that temporary disk, so they disappear when the service sleeps or redeploys.
+Cloudflare Workers hosts the site and can use a domain such as kishenlab.com.
 
-1. Sign in to Render with GitHub and create a new Web Service from this repository.
-2. Runtime: Python.
-3. Build command: `pip install -r requirements.txt`
-4. Start command: `gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2`
-5. Choose the free instance and deploy.
+On the Workers “Create an app” screen for this GitHub repo:
 
-A `Procfile` with that start command is already in the repo. Render also gives the site HTTPS.
+- Project name: `kishen-lab`
+- Build command: leave empty
+- Deploy command: `npx wrangler deploy`
 
-[PythonAnywhere](https://www.pythonanywhere.com) has a free Beginner account with one web app. It does not sleep, but the free app has to be extended about once a month and it cannot use a custom domain.
+Then attach the domain under the project’s Custom domains settings. The contact form on your own computer still saves notes in `instance/messages.json`. On Cloudflare, that disk does not exist, so the public form points people to the lab email.
 
 ## What is in here
 

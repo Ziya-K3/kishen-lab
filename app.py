@@ -8,6 +8,9 @@ from pathlib import Path
 from urllib.parse import quote
 
 from flask import Flask, jsonify, render_template, request
+from jinja2 import ChoiceLoader, DictLoader, FileSystemLoader
+
+from data.embedded_templates import TEMPLATES
 
 from data.content import (
     ABOUT,
@@ -35,11 +38,16 @@ from data.content import (
 
 ROOT = Path(__file__).resolve().parent
 INSTANCE = ROOT / "instance"
-INSTANCE.mkdir(exist_ok=True)
 INBOX = INSTANCE / "messages.json"
 
 app = Flask(__name__)
 app.secret_key = "kishen-lab-local-key"
+app.jinja_loader = ChoiceLoader(
+    [
+        FileSystemLoader(str(ROOT / "templates")),
+        DictLoader(TEMPLATES),
+    ]
+)
 
 NAV = [
     ("Home", "home"),
@@ -266,6 +274,7 @@ def media():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     sent = False
+    stored = False
     error = ""
     if request.method == "POST":
         if request.form.get("company"):
@@ -292,17 +301,23 @@ def contact():
                     except json.JSONDecodeError:
                         existing = []
                 existing.append(entry)
-                INBOX.write_text(json.dumps(existing, indent=2), encoding="utf-8")
+                try:
+                    INSTANCE.mkdir(exist_ok=True)
+                    INBOX.write_text(json.dumps(existing, indent=2), encoding="utf-8")
+                    stored = True
+                except OSError:
+                    stored = False
                 sent = True
-    return render_template("contact.html", page="contact", sent=sent, error=error)
+    return render_template("contact.html", page="contact", sent=sent, error=error, stored=stored)
 
 
 @app.route("/sitemap.xml")
 def sitemap():
     paths = ["/", "/about", "/research", "/people", "/publications", "/awards", "/media", "/contact"]
     body = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    base = request.host_url.rstrip("/")
     for path in paths:
-        body.append(f"<url><loc>http://127.0.0.1:5050{path}</loc></url>")
+        body.append(f"<url><loc>{base}{path}</loc></url>")
     body.append("</urlset>")
     return app.response_class("\n".join(body), mimetype="application/xml")
 
