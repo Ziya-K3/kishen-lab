@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Awards{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <p class="kicker"><span>Awards</span><span>Inventions to benefit patient care</span></p>
+  <h1>Recognition for the work, and for the people who did it with him.</h1>
+  <p class="lede">Team prizes mark supervised projects. Personal honors mark lectureships, chairs, and a body of papers.</p>
+</header>
+
+<section class="section">
+  <div class="filter-row">
+    <a href="{{ url_for('awards') }}" {% if scope == 'all' %}aria-current="true"{% endif %}>All</a>
+    <a href="{{ url_for('awards', scope='team') }}" {% if scope == 'team' %}aria-current="true"{% endif %}>Team</a>
+    <a href="{{ url_for('awards', scope='personal') }}" {% if scope == 'personal' %}aria-current="true"{% endif %}>Personal</a>
+  </div>
+  <ol class="timeline">
+    {% for award in awards %}
+      <li class="reveal" id="{{ award.year }}">
+        <time>{{ award.year }}</time>
+        <div>
+          <span class="tag">{{ award.scope }}</span>
+          <h2>{{ award.title }}</h2>
+          {% if award.detail %}<p>{{ award.detail }}</p>{% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}

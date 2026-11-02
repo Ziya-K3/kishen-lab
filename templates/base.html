@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Kishen Lab{% endblock %} · Oral health nanomedicine</title>
+  <meta name="description" content="Kishen Lab at the University of Toronto Faculty of Dentistry. Biologically based strategies for biofilm-mediated infection, regenerative endodontics, and oral health nanomedicine.">
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ResearchOrganization",
+    "name": "Kishen Lab",
+    "email": "{{ lab.email }}",
+    "telephone": "{{ lab.phone }}",
+    "parentOrganization": "University of Toronto Faculty of Dentistry",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "124 Edward Street, Lab 510A",
+      "addressLocality": "Toronto",
+      "addressRegion": "ON",
+      "postalCode": "M5G 1G6",
+      "addressCountry": "CA"
+    }
+  }
+  </script>
+</head>
+<body data-page="{{ page }}">
+  <div class="logo-wash" aria-hidden="true">
+    <div class="logo-wash-move" data-logo-wash>
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+    </div>
+  </div>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="progress" data-progress aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <a class="brand" href="{{ url_for('home') }}" aria-label="Kishen Lab, home">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      {% for label, endpoint in nav %}
+        <a href="{{ url_for(endpoint) }}" {% if page == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="nav-tools">
+      <button class="search-open" type="button" data-search-open aria-label="Search" aria-haspopup="dialog">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M15.5 15.5L20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>Search</span>
+        <kbd>/</kbd>
+      </button>
+      <a class="nav-cta" href="{{ url_for('contact') }}">Visit</a>
+      <button class="nav-toggle" type="button" data-menu aria-expanded="false" aria-controls="mobile-nav">
+        <span class="sr">Menu</span>
+        <i></i><i></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobile-nav" data-mobile hidden>
+    <nav aria-label="Mobile">
+      {% for label, endpoint in nav %}
+        <a href="{{ url_for(endpoint) }}" {% if page == endpoint %}aria-current="page"{% endif %}>
+          <span>0{{ loop.index }}</span>{{ label }}
+        </a>
+      {% endfor %}
+    </nav>
+  </div>
+
+  <div class="search-modal" data-search hidden>
+    <div class="search-card" role="dialog" aria-modal="true" aria-label="Search the lab">
+      <form role="search" data-search-form>
+        <label class="sr" for="site-search">Search</label>
+        <input id="site-search" type="search" placeholder="Search papers, people, awards…" autocomplete="off" data-search-input>
+      </form>
+      <div class="search-results" data-search-results></div>
+      <p class="search-hint">Papers, people, patents, awards, and news. Press Esc to close.</p>
+    </div>
+  </div>
+
+  <main id="content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="The Kishen Lab">
+        <p class="footer-line">{{ lab.line }}</p>
+      </div>
+      <div>
+        <p class="eyebrow">Laboratory</p>
+        <p>{{ lab.room }}<br>{{ lab.place }}<br>{{ lab.street }}<br>{{ lab.city }}</p>
+      </div>
+      <div>
+        <p class="eyebrow">Correspondence</p>
+        <p><a href="mailto:{{ lab.email }}">{{ lab.email }}</a><br><a href="{{ lab.phone_href }}">{{ lab.phone }}</a></p>
+      </div>
+      <div>
+        <p class="eyebrow">Index</p>
+        <ul class="footer-links">
+          {% for label, endpoint in nav %}
+            <li><a href="{{ url_for(endpoint) }}">{{ label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <p>© {{ now_year }} Dr. Anil Kishen. An independent redesign of the public lab record.</p>
+      <a href="{{ lab.source }}">thekishenlab.org</a>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+</body>
+</html>

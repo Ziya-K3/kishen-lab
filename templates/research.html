@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Research{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <p class="kicker"><span>Research</span><span>Discovery, translation, tools</span></p>
+  <h1>The biology, the material, and the mechanics.</h1>
+  <p class="lede">The lab studies dental tissues in order to build diagnostics, therapies, and materials that preserve and regenerate the tooth and what holds it.</p>
+</header>
+
+<figure class="focus-figure">
+  <img src="{{ url_for('static', filename='images/focus.jpg') }}" alt="Three panels of Kishen Lab work: nanoparticle targeting, cellular mechanisms of dental tissue, and immune modulation in the oral environment.">
+</figure>
+
+<nav class="anchor-nav" aria-label="Research sections">
+  {% for pillar in pillars %}
+    <a href="#{{ pillar.slug }}">{{ pillar.num }} {{ pillar.title }}</a>
+  {% endfor %}
+  <a href="#translation">Translation</a>
+  <a href="#patents">Patents</a>
+</nav>
+
+<section class="section program-list">
+  {% for pillar in pillars %}
+    <article class="program reveal" id="{{ pillar.slug }}">
+      <div class="program-index">
+        <span>{{ pillar.num }}</span>
+        <h2>{{ pillar.title }}</h2>
+      </div>
+      <div>
+        <p class="prose">{{ pillar.summary }}</p>
+        <ul>
+          {% for point in pillar.points %}
+            <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Basic science</p>
+    <h2>Three contributions underneath the themes.</h2>
+  </div>
+  <div class="basic-grid">
+    {% for item in basic %}
+      <article class="reveal">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.body }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section split-band" id="translation">
+  <div>
+    <p class="eyebrow">Clinical translation</p>
+    <h2>Inventions meant for a patient.</h2>
+    <p class="prose">{{ impact }}</p>
+  </div>
+  <ul class="translations">
+    {% for item in translations %}
+      <li class="reveal">
+        <strong>{{ item.title }}</strong>
+        <span>{{ item.detail }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="section" id="patents">
+  <div class="section-head">
+    <p class="eyebrow">Intellectual property</p>
+    <h2>Patents and applications.</h2>
+    <p class="prose patent-note">Granted patents and published applications naming Anil Kishen. Status follows the public listing on the lab site, including USPTO records.</p>
+  </div>
+  <div class="patent-list">
+    {% for patent in patents %}
+      <article class="patent reveal">
+        <div class="patent-top">
+          <span class="tag">{{ patent.status }}</span>
+          <span>{{ patent.date }}</span>
+        </div>
+        <h3>{{ patent.title }}</h3>
+        <p>{{ patent.summary }}</p>
+        <dl>
+          <div><dt>Number</dt><dd>{{ patent.number }}</dd></div>
+          <div><dt>Holder</dt><dd>{{ patent.holder }}</dd></div>
+          <div><dt>Inventors</dt><dd>{{ patent.inventors }}</dd></div>
+        </dl>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

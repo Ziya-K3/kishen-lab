@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}People{% endblock %}
+{% block content %}
+<header class="page-hero people-hero">
+  <p class="kicker"><span>People</span><span>Lab 510A</span></p>
+  <h1>Current group</h1>
+</header>
+
+<section class="section" id="current">
+  <article class="lead">
+    <img src="{{ url_for('static', filename=director.portrait) }}" alt="Anil Kishen">
+    <div>
+      <p class="role">{{ director.role }}</p>
+      <h2>{{ director.name }} <span>{{ director.credentials }}</span></h2>
+      <ul>
+        {% for title in director.titles %}
+          <li>{{ title }}</li>
+        {% endfor %}
+      </ul>
+      <p>Editorial: {{ director.editorial | join("; ") }}.</p>
+    </div>
+  </article>
+  <div class="people-grid">
+    {% for person in current %}
+      <article class="person reveal">
+        {% if person.photo %}
+          <img class="avatar" src="{{ url_for('static', filename=person.photo) }}" alt="">
+        {% else %}
+          <div class="avatar" aria-hidden="true">{{ person.name.split()[0][0] }}{{ person.name.split()[-1][0] }}</div>
+        {% endif %}
+        <div>
+          <h3>{{ person.name }}{% if person.credentials %} <small>{{ person.credentials }}</small>{% endif %}</h3>
+          <p class="role">{{ person.role }}</p>
+          <p>{{ person.project }}</p>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section alumni" data-alumni>
+  <div class="section-head">
+    <p class="eyebrow">Alumni</p>
+    <h2>People who trained here.</h2>
+  </div>
+  <div class="filter-row" role="tablist" aria-label="Alumni groups">
+    {% for group in alumni %}
+      <button type="button" role="tab" data-alumni-tab="{{ group.id }}" {% if loop.first %}aria-selected="true"{% else %}aria-selected="false"{% endif %}>{{ group.label }}</button>
+    {% endfor %}
+  </div>
+  {% for group in alumni %}
+    <ul class="alumni-list" data-alumni-panel="{{ group.id }}" {% if not loop.first %}hidden{% endif %}>
+      {% for name in group.people %}
+        <li class="reveal">{{ name }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</section>
+{% endblock %}

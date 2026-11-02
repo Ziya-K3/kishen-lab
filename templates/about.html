@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <p class="kicker"><span>About</span><span>Faculty of Dentistry</span></p>
+  <h1>{{ about.kicker }}</h1>
+  <p class="lede">{{ about.lead }}</p>
+</header>
+
+<section class="section about-layout">
+  <div class="about-copy">
+    <img class="about-photo reveal" src="{{ url_for('static', filename=director.portrait) }}" alt="Anil Kishen in the laboratory">
+    {% for paragraph in about.paragraphs %}
+      <p class="prose reveal">{{ paragraph }}</p>
+    {% endfor %}
+    <blockquote class="pull-quote reveal">{{ about.question }}</blockquote>
+  </div>
+  <aside class="about-aside reveal">
+    <p class="eyebrow">At a glance</p>
+    <dl>
+      {% for stat in stats %}
+        <div>
+          <dt>{{ stat.label }}</dt>
+          <dd>{{ stat.value }}{{ stat.suffix }}</dd>
+        </div>
+      {% endfor %}
+    </dl>
+    <p class="aside-note">Counts follow the public biography: articles, chapters, books, and citations.</p>
+  </aside>
+</section>
+
+<section class="section principles">
+  <article class="reveal">
+    <span>01</span>
+    <h2>From mechanism to mouth</h2>
+    <p>Models of infection, immunity, and mechanics are only useful if they change a treatment decision.</p>
+  </article>
+  <article class="reveal">
+    <span>02</span>
+    <h2>A room that argues</h2>
+    <p>Clinicians, engineers, and biologists share one bench. Ideas are expected to survive the person next to them.</p>
+  </article>
+  <article class="reveal">
+    <span>03</span>
+    <h2>Train the next lead</h2>
+    <p>Mentorship is a research output. Graduate students and fellows leave able to run a question of their own.</p>
+  </article>
+</section>
+
+<section class="section director-strip">
+  <div>
+    <p class="eyebrow">Principal investigator</p>
+    <h2>{{ director.name }}, {{ director.credentials }}</h2>
+    <p class="prose">Professor and Canada Research Chair (Tier 1) in Oral Health Nanomedicine.</p>
+  </div>
+  <a class="btn btn-dark" href="{{ url_for('people') }}">Full profile <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

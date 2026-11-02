@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <p class="kicker"><span>Contact</span><span>{{ lab.room }}</span></p>
+  <h1>Write to the laboratory.</h1>
+  <p class="lede">Students, collaborators, clinicians, and journalists. Mail also goes directly to {{ lab.email }}.</p>
+</header>
+
+<section class="section contact-layout">
+  <div class="contact-card">
+    {% if sent %}
+      <div class="sent" role="status">
+        <p class="eyebrow">Received</p>
+        <h2>The note is in the lab inbox on this machine.</h2>
+        <p>For a reply from the group itself, use <a href="mailto:{{ lab.email }}">{{ lab.email }}</a>.</p>
+      </div>
+    {% else %}
+      {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+      <form method="post" class="contact-form" novalidate>
+        <label>Name <input name="name" type="text" required autocomplete="name"></label>
+        <label>Email <input name="email" type="email" required autocomplete="email"></label>
+        <label>I am writing as
+          <select name="role">
+            <option>Prospective student</option>
+            <option>Collaborator</option>
+            <option>Clinician</option>
+            <option>Journalist</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label class="hp" aria-hidden="true">Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label>
+        <label>Note <textarea name="message" rows="6" required placeholder="What would you like to work on?"></textarea></label>
+        <button class="btn btn-dark" type="submit">Send the note <span aria-hidden="true">→</span></button>
+      </form>
+    {% endif %}
+  </div>
+  <aside class="visit-card">
+    <p class="eyebrow">Where</p>
+    <address>
+      {{ lab.room }}<br>
+      {{ lab.place }}<br>
+      {{ lab.street }}<br>
+      {{ lab.city }}
+    </address>
+    <p><a href="{{ lab.maps }}">Open in maps</a></p>
+    <p class="eyebrow">Direct</p>
+    <p><a href="mailto:{{ lab.email }}">{{ lab.email }}</a><br><a href="{{ lab.phone_href }}">{{ lab.phone }}</a></p>
+  </aside>
+</section>
+{% endblock %}

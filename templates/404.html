@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Not found{% endblock %}
+{% block content %}
+<section class="page-hero missing">
+  <p class="kicker"><span>404</span></p>
+  <h1>That page is not in the index.</h1>
+  <p class="lede">The lab site has a short map. Start from the work, or search.</p>
+  <div class="hero-actions">
+    <a class="btn btn-dark" href="{{ url_for('home') }}">Back to the lab</a>
+    <a class="btn btn-line" href="{{ url_for('publications') }}">Browse papers</a>
+  </div>
+</section>
+{% endblock %}

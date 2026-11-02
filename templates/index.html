@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Kishen Lab{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <h1 class="reveal">Kishen Lab</h1>
+      <p class="kicker reveal"><span>Lab 510A</span><span>Faculty of Dentistry, University of Toronto</span><span>Since the early 2000s</span></p>
+      <p class="lede reveal">A clinician-scientist’s laboratory for biofilm-mediated infection. Nanomedicine, regenerative endodontics, and the immune life of dental tissue — built to leave the bench.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-light" href="{{ url_for('research') }}">Read the research <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="{{ url_for('people') }}">The people</a>
+      </div>
+      <blockquote class="hero-question reveal">
+        <p>Is drill-and-fill the right strategy for an organ this biologically adapted — or can the body be recruited to heal?</p>
+      </blockquote>
+    </div>
+    <figure class="hero-photo reveal">
+      <img src="{{ url_for('static', filename='images/lab-group.jpeg') }}" alt="Members of the Kishen Lab together in the laboratory">
+    </figure>
+  </div>
+  <dl class="stats">
+    {% for stat in stats %}
+      <div class="stat reveal">
+        <dt>{{ stat.label }}</dt>
+        <dd data-count="{{ stat.value }}" data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</dd>
+      </div>
+    {% endfor %}
+  </dl>
+</section>
+
+<div class="funders" aria-label="Supporting agencies">
+  <p>Supporting agencies</p>
+  <ul>
+    {% for fund in funds %}
+      <li><img src="{{ url_for('static', filename=fund.file) }}" alt="{{ fund.name }}"></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<section class="section contents-section">
+  <div class="section-head">
+    <p class="eyebrow">Contents</p>
+    <h2>A laboratory, indexed.</h2>
+  </div>
+  <ol class="contents">
+    <li class="reveal"><a href="{{ url_for('research') }}"><span>01</span><strong>Research</strong><em>Four programs, from organoids to interferometry.</em></a></li>
+    <li class="reveal"><a href="{{ url_for('people') }}"><span>02</span><strong>People</strong><em>Engineers, clinicians, and trainees in Lab 510A.</em></a></li>
+    <li class="reveal"><a href="{{ url_for('publications') }}"><span>03</span><strong>Record</strong><em>Selected papers from a list of more than 250.</em></a></li>
+    <li class="reveal"><a href="{{ url_for('media') }}"><span>04</span><strong>Dispatches</strong><em>From the Straits Times to the present.</em></a></li>
+  </ol>
+</section>
+
+<section class="section manifesto">
+  <div class="manifesto-grid">
+    <p class="eyebrow reveal">The premise</p>
+    <div>
+      <p class="pull reveal">The tooth is built by epithelium, neural crest, and mesoderm, then asked to chew while surrounded by microbes. Immunity protects it — and decides how it repairs.</p>
+      <p class="prose reveal">Kishen Lab is led by a clinician-scientist trained in both the clinic and biomedical engineering. For two decades the group has engineered biologically based approaches to bacterial biofilm-mediated infection, rather than treating the tooth as a cavity to be filled.</p>
+      <a class="text-link reveal" href="{{ url_for('about') }}">The longer account <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Programs</p>
+    <h2>Where the work sits.</h2>
+  </div>
+  <div class="pillars">
+    {% for pillar in pillars %}
+      <article class="pillar reveal" style="--i: {{ loop.index }}">
+        <span class="pillar-num">{{ pillar.num }}</span>
+        <h3>{{ pillar.title }}</h3>
+        <p>{{ pillar.summary }}</p>
+        <a href="{{ url_for('research') }}#{{ pillar.slug }}">Open the program</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section split-band">
+  <div>
+    <p class="eyebrow">Bench to care</p>
+    <h2>What has already left the lab.</h2>
+    <p class="prose">Clinical translation is part of the research design, not a slide at the end.</p>
+  </div>
+  <ul class="translations">
+    {% for item in translations %}
+      <li class="reveal">
+        <strong>{{ item.title }}</strong>
+        <span>{{ item.detail }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="section">
+  <div class="section-head row-head">
+    <div>
+      <p class="eyebrow">Selected record</p>
+      <h2>Recent papers.</h2>
+    </div>
+    <a class="text-link" href="{{ url_for('publications') }}">Full index <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="papers">
+    {% for paper in papers %}
+      <article class="paper reveal">
+        {% if paper.figure %}
+          <img class="paper-fig" src="{{ url_for('static', filename=paper.figure) }}" alt="">
+        {% endif %}
+        <p class="paper-meta">{{ paper.year }} · {{ paper.journal }}</p>
+        <h3>{{ paper.title }}</h3>
+        <p class="paper-authors">{{ paper.authors }}</p>
+        <p>{{ paper.summary }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section news-section">
+  <div class="section-head row-head">
+    <div>
+      <p class="eyebrow">Dispatches</p>
+      <h2>Outside the journal.</h2>
+    </div>
+    <a class="text-link" href="{{ url_for('media') }}">All coverage <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="news-grid">
+    {% for story in news %}
+      <a class="news-card reveal" href="{{ story.href }}">
+        {% if story.image %}
+          <img src="{{ url_for('static', filename=story.image) }}" alt="">
+        {% endif %}
+        <p>{{ story.outlet }} · {{ story.date }}</p>
+        <h3>{{ story.title }}</h3>
+        <span>Read the piece</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section voices" data-voices>
+  <p class="eyebrow">From the room</p>
+  <div class="voice-frame">
+    {% for item in testimonials %}
+      <blockquote class="voice {% if loop.first %}is-active{% endif %}" data-voice>
+        <p>“{{ item.quote }}”</p>
+        <footer>{{ item.by }}</footer>
+      </blockquote>
+    {% endfor %}
+  </div>
+  <div class="voice-dots" role="tablist" aria-label="Testimonials">
+    {% for item in testimonials %}
+      <button type="button" aria-label="Show testimonial {{ loop.index }}" {% if loop.first %}aria-current="true"{% endif %}></button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="visit">
+  <div>
+    <p class="eyebrow">Correspondence</p>
+    <h2>Lab 510A, Edward Street.</h2>
+    <p>Faculty of Dentistry, University of Toronto. Prospective students, collaborators, and journalists are welcome to write.</p>
+  </div>
+  <div class="visit-actions">
+    <a class="btn btn-light" href="mailto:{{ lab.email }}">{{ lab.email }}</a>
+    <a class="btn btn-ghost" href="{{ url_for('contact') }}">Write to the lab</a>
+  </div>
+</section>
+{% endblock %}

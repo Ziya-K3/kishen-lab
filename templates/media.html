@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Media{% endblock %}
+{% block content %}
+<header class="page-hero">
+  <p class="kicker"><span>Media</span><span>Happenings</span></p>
+  <h1>The lab, as other people have told it.</h1>
+  <p class="lede">From a fiber-optic sensor in Singapore to the work in Toronto. Stories link out to the original piece when a public URL exists.</p>
+</header>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Recent</p>
+    <h2>Longer dispatches.</h2>
+  </div>
+  <div class="feature-news">
+    {% for story in news %}
+      <a class="feature-card reveal" href="{{ story.href }}">
+        {% if story.image %}
+          <img src="{{ url_for('static', filename=story.image) }}" alt="">
+        {% endif %}
+        <p>{{ story.outlet }} · {{ story.date }}</p>
+        <h3>{{ story.title }}</h3>
+        <span>{{ story.summary }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">In print</p>
+    <h2>Pages and rooms.</h2>
+  </div>
+  <div class="cover-row">
+    {% for cover in covers %}
+      <figure class="reveal">
+        <img src="{{ url_for('static', filename=cover.file) }}" alt="{{ cover.caption }}">
+        <figcaption>{{ cover.caption }}</figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Archive</p>
+    <h2>Coverage since 2001.</h2>
+  </div>
+  <ul class="media-list">
+    {% for item in media %}
+      <li class="reveal">
+        <span>{{ item.year }}</span>
+        <div>
+          <p>{{ item.outlet }}</p>
+          {% if item.href %}
+            <a href="{{ item.href }}">{{ item.title }}</a>
+          {% else %}
+            <strong>{{ item.title }}</strong>
+          {% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
