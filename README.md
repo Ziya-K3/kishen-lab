@@ -27,6 +27,8 @@ On the Workers “Create an app” screen for this GitHub repo:
 - Build command: leave empty
 - Deploy command: `npx wrangler deploy`
 
+Flask is vendored in `python_modules` so the Worker can import it. A push to `main` starts a new Cloudflare build.
+
 Then attach the domain under the project’s Custom domains settings. The contact form on your own computer still saves notes in `instance/messages.json`. On Cloudflare, that disk does not exist, so the public form points people to the lab email.
 
 ## What is in here
